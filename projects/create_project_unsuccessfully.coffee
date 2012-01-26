@@ -41,7 +41,7 @@ vowsbdd.Feature('Create a Project')
     browser.pressButton 'Create Project', @callback
 
 
-  .then 'an alert should appear', (err, browser) ->
+  .then 'an alert should appear stating the errors', (err, browser) ->
     browser.prompted("Start date can't be blank, End date can't be blank").should.be.true
 
   
