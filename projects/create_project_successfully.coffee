@@ -4,10 +4,16 @@ assert  = require 'assert'
 sinon   = require 'sinon'
 should  = require 'should'
 vowsbdd = require 'vows-bdd'
+
+
+# Define the teardown
+teardown = -> browser.window.jQuery.ajax.restore()
     
 
 # Create a new browser
 browser = new zombie.Browser debug: false
+
+
 
 # Define the feature
 vowsbdd.Feature('Create a Project')
@@ -40,9 +46,9 @@ vowsbdd.Feature('Create a Project')
     sinon.stub browser.window.jQuery, 'ajax'
     
     browser
-      .fill( 'title'       , 'Zombie Project' )
-      .fill( 'start_date'  , 'Jan 01, 2012'   )
-      .fill( 'end_date'    , 'Jan 30, 2012'   )
+      .fill( 'title'      , 'Zombie Project' )
+      .fill( 'start_date' , 'Jan 01, 2012'   )
+      .fill( 'end_date'   , 'Jan 30, 2012'   )
       .pressButton 'Create Project', @callback
       
     
@@ -56,13 +62,13 @@ vowsbdd.Feature('Create a Project')
     
     
   .then 'a new Project Detail card should appear', (err, browser) ->
-    browser.query( '#project_detail h3'     ).innerHTML.trim().should.equal 'Zombie Project'
-    browser.query( '.timeline_marker.start' ).innerHTML.trim().should.equal 'Jan 1, 2012'
-    browser.query( '.timeline_marker.end'   ).innerHTML.trim().should.equal 'Jan 30, 2012'
+    browser.text( '#project_detail h3'     ).trim().should.equal 'Zombie Project'
+    browser.text( '.timeline_marker.start' ).trim().should.equal 'Jan 1, 2012'
+    browser.text( '.timeline_marker.end'   ).trim().should.equal 'Jan 30, 2012'
     
   
   .and 'the new project appears in the Projects Timeline', (err, browser) ->
     browser.query('#projects_timeline li:last').innerHTML.should.match /Zombie/
 
-  .complete(-> browser.window.jQuery.ajax.restore())
+  .complete(teardown)
   .finish module

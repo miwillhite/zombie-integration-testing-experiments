@@ -4,10 +4,16 @@ assert  = require 'assert'
 sinon   = require 'sinon'
 should  = require 'should'
 vowsbdd = require 'vows-bdd'
+
+
+# Define the teardown
+teardown = -> browser.window.jQuery.ajax.restore()
     
 
 # Create a new browser
 browser = new zombie.Browser debug: false
+
+
 
 # Define the feature
 vowsbdd.Feature('Create a Project')
@@ -59,5 +65,5 @@ vowsbdd.Feature('Create a Project')
   
     
   
-  .complete(-> browser.window.jQuery.ajax.restore())
+  .complete(teardown)
   .finish module
