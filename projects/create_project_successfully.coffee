@@ -13,7 +13,7 @@ browser = new zombie.Browser debug: false
 vowsbdd.Feature('Create a Project')
 
 
-  .scenario('Navigating to the New Project form')
+  .scenario('With valid params')
   
   
   .given 'the server is ready', ->    
@@ -63,16 +63,6 @@ vowsbdd.Feature('Create a Project')
   
   .and 'the new project appears in the Projects Timeline', (err, browser) ->
     browser.query('#projects_timeline li:last').innerHTML.should.match /Zombie/
-    
-    
-  .when 'the response is unsuccessful', (browser, status) ->
-    browser.window.jQuery.ajax.getCall(0).args[0].error()
-    browser.wait @callback
-  
-  
-  .then 'an alert should appear', (err, browser) ->
-    browser.prompted().should.be.ok
-    
-  
+
   .complete(-> browser.window.jQuery.ajax.restore())
   .finish module
