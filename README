@@ -7,6 +7,8 @@ Shared steps (like Background)
 
 Needs to initiate it's own instance of the app...could have a gem wrapper that fires up a test env
 
+Fixtures
+
 Do I need to look at database interactions? or leave that out and focus strictly on client
 
 Establish directory structure
